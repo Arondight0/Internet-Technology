@@ -73,12 +73,12 @@ def show_category(request, category_name_slug):
         # We also add the category object from
         # the database to the context dictionary.
         # We'll use this in the template to verify that the category exists.
-        context_dict['categories'] = category
+        context_dict['category'] = category
     except Category.DoesNotExist:
         # We get here if we didn't find the specified category.
         # Don't do anything -
         # the template will display the "no category" message for us.
-        context_dict['categories'] = None
+        context_dict['category'] = None
         context_dict['pages'] = None
 
     # Go render the response and return it to the client.
@@ -100,6 +100,8 @@ def index(request):
 
 def about(request):
     context_dict = {'boldmessage': "This tutorial has been put together by Hengjia Zhang"}
+    print(request.method)
+    print(request.user)
     return render(request, 'rango/about.html', context=context_dict)
 
 
