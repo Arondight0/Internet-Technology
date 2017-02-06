@@ -13,7 +13,7 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import url
+from django.conf.urls import include, url
 
 from rango import views
 
@@ -25,8 +25,8 @@ urlpatterns = [
         views.add_page, name='add_page'),
     url(r'^category/(?P<category_name_slug>[\w\-]+)/$',
         views.show_category, name='show_category'),
-    url(r'^register/$', views.register, name='register'),
-    url(r'^login/$', views.user_login, name='login'),
+    # url(r'^register/$', views.register, name='register'),
+    # url(r'^login/$', views.user_login, name='login'),
     url(r'^restricted/', views.restricted, name='restricted'),
-    url(r'^logout/$', views.user_logout, name='logout'),
+    # url(r'^logout/$', views.user_logout, name='logout'),
 ]
