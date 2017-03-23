@@ -1,0 +1,43 @@
+{% extends 'rango/base.html' %}
+{% load staticfiles %}
+
+{% block title %} Search {% endblock %}
+
+{% block body_block %}
+<div>
+    <h1>Search with Rango</h1>
+    <br />
+    <form class="form-inline" id="user_form"
+        method="get" action="{% url 'suggest_page' %}">
+        {% csrf_token %}
+        <div class="form-group">
+            <input class="form-control" type="text" size="50"
+                name="suggestion" value="" id="suggestion_page" />
+        </div>
+        <button class="btn btn-primary" type="submit" name="submit"
+            value="Search">Search</button>
+    </form>
+    <div>
+        <h3>Results</h3>
+        <!-- Display search results in an order list -->
+        <ul>
+        {% if pages %}
+            {% for p in pages %}
+	        {% if p == act_page %}
+	            <li>
+	            <strong>
+		        <a href="{% url 'page' p.category.slug p.slug %}">{{ p.title }}</a>
+	            </strong>
+	            </li>
+	        {% else %}
+	            <li>
+		        <a href="{% url 'page' p.category.slug p.slug %}">{{ p.title }}</a>
+	            </li>
+	        {% endif %}
+            {% endfor %}
+        {% else %}
+            <li><strong>There are no pages present.</strong></li>
+        {% endif %}
+        </ul>
+    </div>
+{% endblock %}

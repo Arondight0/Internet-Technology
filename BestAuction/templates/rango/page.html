@@ -1,0 +1,79 @@
+{% extends 'rango/base.html' %}
+{% load staticfiles %}
+
+<style type="text/css">
+#defaultCountdown { width: 240px; height: 45px; }
+</style>
+
+
+
+{% block title_block %}
+    {{ page.title }}
+{% endblock %}
+
+{% block body_block %}
+
+<div class="row">
+    <div class="col-lg-4">
+    <h1>{{ page.title }}</h1>
+    <img src="{{ MEDIA_URL }}{{ page.picture }}"
+        width="300" height="300" alt="{{ page.title }}" />
+    <br/>
+    <div>
+    <li>
+        {% if page.views > 1 %}
+        <span class="tag tag-pill tag-primary">{{page.views}} views</span>
+        {% elif page.views == 1 %}
+        <span class="tag tag-pill tag-primary">{{page.views}} view</span>
+        {% endif %}
+    </li><br/>
+    <li>
+    <strong id="like_countp">{{ page.likes }}</strong> people like this category
+        {% if user.is_authenticated %}
+            <button id="likes_page" data-pageid="{{page.id}}" class="btn btn-primary btn-sm" type="button">
+                Like
+            </button>
+        {% endif %}
+    </li><br/>
+    <li>
+    <span class="tag tag-pill tag-primary" id="deadline" date="{{date}}">closingtime: {{page.closingtime}} </span>
+    </li><br/>
+    <li>
+    <span class="tag tag-pill tag-primary">status: {{page.status}} </span>
+    </li><br/>
+    </div>
+    </div>
+    <div class="col-lg-5">
+    <span class="tag tag-pill tag-primary"><h4>Countdown:</h4></span><br/>
+    <div id="Countdown"></div><br/><br/><br/><br/>
+    <div><strong>Description: </strong>{{page.description}} </div><br/><br/><br/>
+    <div class="row">
+        <div class="col-lg-4">
+        <span class="tag tag-pill tag-primary">number of bidders: <strong id="number_late">{{page.number}}</strong></span><br/><br/><br/>
+        <span class="tag tag-pill tag-primary">highestprice: <strong id="price_late">{{page.highestprice}}</strong></span>
+        </div>
+        <div class="col-lg-1">
+        {% if user.is_authenticated %}
+            <br/>
+            <form class="form-inline" method="get">
+                <input class="form-control mr-sm-2" 
+                    type="value" name="value" value=0.00 id="bidinput" placeholder="Bid">
+            </form><br/><br/>
+            <button id="bid" data-pageid="{{page.id}}" class="btn btn-primary btn-sm" type="button">
+                Bid
+            </button>
+        {% endif %}
+        </div>
+    </div>
+    </div>
+    <div class="col-lg-3">
+    <h3>Owner: </h3><h4><strong><a href="{% url 'profile' page.owner %}">
+            {{ page.owner }}</a></strong></h4>
+    <img src="{{ MEDIA_URL }}{{ page.owner.picture }}"
+        width="300" height="300" alt="{{ page.owner }}" />
+    <br/>
+    <p>description: {{page.owner.description}} </p>
+    </div>
+</div>
+
+{% endblock %}

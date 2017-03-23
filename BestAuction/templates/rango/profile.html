@@ -1,0 +1,61 @@
+{% extends 'rango/base.html' %}
+{% load staticfiles %}
+
+{% block title_block %}
+    {{ selecteduser.username }} Profile
+{% endblock %}
+
+{% block body_block %}
+<div class="row">
+    <div class="col-lg-4">
+    <h1>{{ selecteduser.username }} Profile</h1>
+    <img src="{{ MEDIA_URL }}{{ userprofile.picture }}"
+        width="300" height="300" alt="{{ selecteduser.username }}" />
+    <br/><br/>
+    <div>
+        {% if selecteduser.username == user.username %}
+        <form method="post" action="." enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Update" />
+        </form>
+        {% else %}
+        <p><strong>Email:</strong>{{ userprofile.email }}</p><br/>
+        <p><strong>Description:</strong>{{ userprofile.description }}</p>
+        {% endif %}
+    </div>
+    <div id="edit_profile"></div>
+    </div>
+    <div class="col-lg-4">
+    <h4>Bid List</h4>
+    <p>
+    {% if bidlist %}
+    <ul class="list-group">
+	{% for bid in bidlist %}
+	<li class="list-group-item">
+	<a href="{% url 'page' bid.category.slug bid.slug %}"\>{{ bid.title }}</a>
+	</li>
+	{% endfor %}
+    </ul>
+    {% else %}
+	<strong>There are no bids present.</strong>
+    {% endif %}
+    </p>
+    </div>
+    <div class="col-lg-4">
+    <h4>Own List</h4>
+    <p>
+    {% if ownlist %}
+    <ul class="list-group">
+	{% for own in ownlist %}
+	<li class="list-group-item">
+	<a href="{% url 'page' own.category.slug own.slug %}"\>{{ own.title }}</a>
+	</li>
+	{% endfor %}
+    </ul>
+    {% else %}
+	<strong>There are no owns present.</strong>
+    {% endif %}
+    </p>
+    </div>
+{% endblock %}

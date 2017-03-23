@@ -1,0 +1,44 @@
+{% extends 'rango/base.html' %}
+{% load staticfiles %}
+
+{% block title_block %}
+    Add Page
+{% endblock %}
+
+{% block body_block %}
+<div class="row">
+    <div class="col-lg-6">
+    <h2 class="form-signin-heading">Add a Page to
+        <a href="/rango/category/{{ category.slug }}/">
+            {{ category.name }}</a></h2>
+    <br/>
+    {% if category %}
+        <form role="form" id="page_form" method="post"
+            action="/rango/category/{{ category.slug }}/add_page/" enctype="multipart/form-data">
+        {% csrf_token %}
+        {% for hidden in form.hidden_fields %}
+            {{ hidden }}
+        {% endfor %}
+        {% for field in form.visible_fields %}
+            {{ field.errors }}
+            {{ field.help_text }}<br/>
+            {{ field }}<br/>
+        {% endfor %}
+        <br/>
+        </form>
+    {% else %}
+        <p>This category by this name does not exist</p>
+    {% endif %}
+    </div>
+    <div class="col-lg-6">
+    <img src="{{ MEDIA_URL }}{{ page.picture }}"
+        width="300" height="300" alt="{{ page.title }}" />
+    <br/>
+    <button class="btn btn-primary"
+        type="submit" name="submit">
+            Add Page
+    </button>
+    </div>
+</div>
+{% endblock %}
+
